@@ -1,6 +1,7 @@
 FROM php:7.2-fpm
 
 MAINTAINER Anthony Ruhier
+ARG AMPACHE_VERSION=3.9.0
 
 WORKDIR /usr/src/
 
@@ -27,14 +28,14 @@ RUN debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)" \
  && mv composer.phar /usr/local/bin/composer \
  && echo "upload_max_filesize = 25M;" >> /usr/local/etc/php/conf.d/uploads.ini
 
-ADD https://github.com/ampache/ampache/archive/master.tar.gz /usr/src/ampache-master.tar.gz
+ADD https://github.com/ampache/ampache/archive/${AMPACHE_VERSION}.tar.gz /usr/src/ampache-${AMPACHE_VERSION}.tar.gz
 #ADD ampache.cfg.php.dist /var/temp/ampache.cfg.php.dist
 
 RUN mkdir /usr/src/ampache && ln -s /usr/src/ampache /var/www/ampache \
- && tar -C /var/www/ampache -xf /usr/src/ampache-master.tar.gz ampache-master --strip=1 \
+ && tar -C /var/www/ampache -xf /usr/src/ampache-${AMPACHE_VERSION}.tar.gz ampache-${AMPACHE_VERSION} --strip=1 \
  && cd /var/www/ampache && composer install --prefer-source --no-interaction \
  && chown -R www-data /usr/src/ampache \
- && rm /var/www/ampache /usr/src/ampache-master.tar.gz
+ && rm /var/www/ampache /usr/src/ampache-${AMPACHE_VERSION}.tar.gz
 
 VOLUME ["/media"]
 VOLUME ["/var/www/ampache/config"]
