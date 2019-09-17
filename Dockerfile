@@ -5,6 +5,7 @@ ARG AMPACHE_VERSION=3.9.0
 
 WORKDIR /usr/src/
 
+RUN apt update && apt-get -y install apt-utils
 RUN export DEBIAN_RELEASE=`dpkg --status tzdata|grep Provides|cut -f2 -d'-'` \
  &&	echo "deb http://http.debian.net/debian/ ${DEBIAN_RELEASE} main contrib non-free" > /etc/apt/sources.list \
  && echo "deb http://http.debian.net/debian/ ${DEBIAN_RELEASE}-updates main contrib non-free" >> /etc/apt/sources.list \
@@ -12,13 +13,8 @@ RUN export DEBIAN_RELEASE=`dpkg --status tzdata|grep Provides|cut -f2 -d'-'` \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install wget gnupg rsync inotify-tools git cron lame libldap2-dev
 
-ADD https://download.videolan.org/pub/debian/videolan-apt.asc /tmp/videolan-apt.asc
-
-RUN	apt-key add /tmp/videolan-apt.asc && rm /tmp/videolan-apt.asc \
-	&& echo 'deb http://download.videolan.org/pub/debian/stable/ /' > /etc/apt/sources.list.d/videolan.list \
-	&& echo 'deb-src http://download.videolan.org/pub/debian/stable/ /' >> /etc/apt/sources.list.d/videolan.list \
-	&& apt-get update \
-	&& DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install libvorbis-dev vorbis-tools flac libmp3lame-dev libavcodec-extra* libtheora-dev libfaac-dev libvpx-dev libav-tools libfreetype6-dev libicu-dev libjpeg-dev libpng-dev
+RUN	apt-get update \
+	&& DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install libvorbis-dev vorbis-tools flac libmp3lame-dev ffmpeg libtheora-dev libfaac-dev libopus-dev libvpx-dev libfreetype6-dev libicu-dev libjpeg-dev libpng-dev
 
 RUN debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)" \
  && docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch" \
