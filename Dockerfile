@@ -17,7 +17,7 @@ RUN	apt-get update \
 
 RUN debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)" \
  && docker-php-ext-configure ldap --with-libdir="lib/$debMultiarch" \
- && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
+ && docker-php-ext-configure gd \
  && docker-php-ext-install gd ldap mysqli pdo_mysql \
  && php -r "readfile('https://getcomposer.org/installer');" | php \
  && mv composer.phar /usr/local/bin/composer \
