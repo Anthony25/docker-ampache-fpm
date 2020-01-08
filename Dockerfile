@@ -1,4 +1,4 @@
-FROM php:7.2-fpm
+FROM php:7.4.1-fpm
 
 MAINTAINER Anthony Ruhier
 ARG AMPACHE_VERSION=4.0.0

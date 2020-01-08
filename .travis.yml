@@ -1,0 +1,5 @@
+# Only here for periodic autobuilds
+language: minimal
+
+script:
+  - curl -X POST "$DOCKERHUB_URL"
