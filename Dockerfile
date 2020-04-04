@@ -1,7 +1,7 @@
 FROM php:7.4.4-fpm
 
 MAINTAINER Anthony Ruhier
-ARG AMPACHE_VERSION=4.1.0
+ARG AMPACHE_VERSION=4.1.1
 
 WORKDIR /usr/src/
 
