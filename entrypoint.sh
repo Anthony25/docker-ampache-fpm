@@ -16,21 +16,5 @@ if [[ ! -f /var/www/config/ampache.cfg.php ]]; then
 	rsync -rlDog --chown www-data:root /usr/src/ampache/themes/ /var/www/ampache/themes/
 fi
 
-# Start cron in the background
-echo "Add cron task to clean the database"
-echo '30 7    * * *   www-data php /var/www/ampache/bin/catalog_update.inc' >> /etc/crontab
-
-cron
-
-(
-echo 'Start a process to watch for changes in the library with inotify'
-while $NOTIFY_CHANGES; do
-    inotifywatch /media
-    php /var/www/ampache/bin/catalog_update.inc -a
-    sleep 30
-done
-) &
-
 echo "Start PHP-FPM"
-
 exec php-fpm

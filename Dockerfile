@@ -10,7 +10,7 @@ RUN export DEBIAN_RELEASE=`dpkg --status tzdata|grep Provides|cut -f2 -d'-'` \
  && echo "deb http://http.debian.net/debian/ ${DEBIAN_RELEASE}-updates main contrib non-free" >> /etc/apt/sources.list \
  && echo "deb http://security.debian.org/ ${DEBIAN_RELEASE}/updates main contrib non-free" >> /etc/apt/sources.list \
  && apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install wget gnupg rsync inotify-tools git cron lame libldap2-dev
+ && DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install wget gnupg rsync inotify-tools git lame libldap2-dev
 
 RUN	apt-get update \
 	&& DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install libvorbis-dev vorbis-tools flac libmp3lame-dev ffmpeg libtheora-dev libfaac-dev libopus-dev libvpx-dev libfreetype6-dev libicu-dev libjpeg-dev libpng-dev
