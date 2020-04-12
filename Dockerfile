@@ -28,8 +28,12 @@ ADD https://github.com/ampache/ampache/archive/${AMPACHE_VERSION}.tar.gz /usr/sr
 #ADD ampache.cfg.php.dist /var/temp/ampache.cfg.php.dist
 
 RUN mkdir /usr/src/ampache && ln -s /usr/src/ampache /var/www/ampache \
- && tar -C /var/www/ampache -xf /usr/src/ampache-${AMPACHE_VERSION}.tar.gz ampache-${AMPACHE_VERSION} --strip=1 \
- && cd /var/www/ampache && composer install --prefer-source --no-interaction \
+ && tar -C /var/www/ampache -xf /usr/src/ampache-${AMPACHE_VERSION}.tar.gz ampache-${AMPACHE_VERSION} --strip=1
+
+COPY overwrite/composer.json /var/www/ampache/composer.json
+COPY overwrite/composer.lock /var/www/ampache/composer.lock
+
+RUN cd /var/www/ampache && composer install --prefer-source --no-interaction \
  && chown -R www-data /usr/src/ampache \
  && rm /var/www/ampache /usr/src/ampache-${AMPACHE_VERSION}.tar.gz
 
